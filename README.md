@@ -1,2 +1,2 @@
 # Portfolio
-Thsi is a personal portfolio of some passion and acadmic projects I have recently worked with. 
+This is a personal portfolio of some passion and acadmic projects I have recently worked with. 
