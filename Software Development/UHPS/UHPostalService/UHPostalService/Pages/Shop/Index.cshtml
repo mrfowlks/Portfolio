@@ -1,0 +1,76 @@
+﻿@page
+@model UHPostalService.Pages.Shop.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Shop</h1>
+@if (User.IsInRole("Admin") || (User.IsInRole("Supervisor")) || (User.IsInRole("Employee")))
+{
+    <p>
+    <a asp-page="Create">New Item</a>
+</p>}
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by Description:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            | Price Range:
+            <input type="text" name="fr" value="@Model.from" />
+            to
+            <input type="text" name="mx" value="@Model.to" />
+            |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort">
+                @Html.DisplayNameFor(model => model.Product[0].Desc)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.PriceSort">
+                Price
+                </a>
+            </th>
+            <th>
+            <a asp-page="./Index" asp-route-sortOrder="@Model.StockSort">
+                @Html.DisplayNameFor(model => model.Product[0].Stock)
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Product) {
+            if (!item.Deleted)
+            {
+
+
+                <tr>
+                    <td>
+                @Html.DisplayFor(modelItem => item.Desc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitCost)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Stock)
+            </td>
+            @if (User.IsInRole("Admin") || (User.IsInRole("Supervisor")) || (User.IsInRole("Employee")))
+                    {
+                        <td>
+
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>}
+        </tr>}
+}
+    </tbody>
+</table>

@@ -1,0 +1,101 @@
+﻿@page
+@model UHPostalService.Pages.Stores.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Stores</h1>
+
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-page="Create">New Store</a>
+    }
+</p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by 
+                <!--<label asp-for="test" class="control-label"></label>-->
+                <!--<input asp-for="Address.State" class="form-control" />-->
+                <select asp-for="test" name="filterby" value="@Model.test" class ="form-group">
+					<option value="1">ZipCode</option>
+					<option value="2">State</option>
+				</select>
+				<span asp-validation-for="test" class="text-danger"></span>
+
+            
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+
+           
+            <th>
+                @Html.DisplayNameFor(model => model.Store[0].Supervisor)
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Store[0].PhoneNumber)
+            </th>
+            <!--</th>-->
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.StateSort">
+                @Html.DisplayNameFor(model => model.Store[0].Address.State)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.ZipSort">
+                @Html.DisplayNameFor(model => model.Store[0].Address.Zipcode)
+                </a>
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Store) {
+            
+                <tr>
+                    <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+                    
+            <td>
+                @Html.DisplayFor(modelItem => item.Supervisor.Name)
+            </td>
+            <td>
+                @item.Address.ToString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.Zipcode)
+            </td>
+            
+            <td>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> <text>|</text>
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

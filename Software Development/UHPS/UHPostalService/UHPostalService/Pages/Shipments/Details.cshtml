@@ -1,0 +1,120 @@
+﻿@page
+@using System.Security.Claims
+@model UHPostalService.Pages.Shipments.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Shipment Tracking Number @Model.Package.Id</h1>
+
+<div>
+    <h5>Status: @Html.DisplayFor(model => model.Package.Status)</h5>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Package.Sender)
+        </dt>
+        <dd class="col-sm-10">
+            <a asp-page="/Account/Customers/Details" asp-route-id=@Model.Package.SenderID>@Html.DisplayFor(model => model.Package.Sender.Name)</a>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Package.Receiver)
+        </dt>
+        <dd class="col-sm-10">
+            <a asp-page="/Account/Customers/Details" asp-route-id=@Model.Package.ReceiverID>@Html.DisplayFor(model => model.Package.Receiver.Name)</a>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Package.Destination)
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Package.Destination.ToString()
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Package.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Package.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Package.Weight)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Package.Weight)
+        </dd><dt class="col-sm-2">
+            Dimensions
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Package.Width x @Model.Package.Height x @Model.Package.Depth
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Package.Express)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Package.Express)
+        </dd>
+        <dt class="col-sm-2">
+            Shipping Cost
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Package.ShipCost)
+        </dd>
+        <dt class="col-sm-2">
+            Shipment Class
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Package.Type.Desc)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    @if (User.IsInRole("Admin") || (User.IsInRole("Supervisor")) || (User.IsInRole("Employee")))
+    {
+        <a asp-page="./Edit" asp-route-id="@Model.Package.Id">Edit | </a>
+        <a asp-page="/Tracking/Checkin" asp-route-urltrnum="@Model.Package.Id">Check In | </a>
+
+        <a asp-page="/Tracking/Checkout" asp-route-trnum="@Model.Package.Id">Check Out</a>
+    }
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TrackingRecord[0].Store)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrackingRecord[0].TimeIn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrackingRecord[0].TimeOut)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.TrackingRecord) {
+        <tr>
+            <td>
+                <a asp-page="/Stores/Details" asp-route-id="@item.Store.Id">Store #@Html.DisplayFor(modelItem => item.Store.Id)</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeIn)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeOut)
+            </td>
+            @if (User.IsInRole("Admin") || (User.IsInRole("Supervisor")) || (User.IsInRole("Employee")))
+            {
+                <td>
+                    <a asp-page="/Tracking/Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="/Tracking/Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="/Tracking/Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            }
+        </tr>
+}
+    </tbody>
+</table>

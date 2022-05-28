@@ -1,0 +1,56 @@
+﻿@page
+@model UHPostalService.Pages.QuoteModel
+
+@{
+    ViewData["Title"] = "Quote";
+}
+
+<h1>Get a Quote</h1>
+<hr />
+
+<h2>Shipment Details</h2>
+           
+            
+<form asp-page="./Quote" method="get">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label asp-for="Weight" class="control-label"></label>
+            <input type="number" step="any" name="wei" value="@Model.Weight" class="form-control" />
+            <span asp-validation-for="Weight" class="text-danger"></span>
+
+            <label asp-for="Height" class="control-label"></label>
+            <input type="number" step="any" name="hei" value="@Model.Height" class="form-control" />
+            <span asp-validation-for="Height" class="text-danger"></span>
+
+            <label asp-for="Width" class="control-label"></label>
+            <input type="number"  step="any" name="wid" value="@Model.Width" class="form-control" />
+            <span asp-validation-for="Width" class="text-danger"></span>
+
+            <label asp-for="Length" class="control-label"></label>
+            <input type="number"  step="any" name="len" value="@Model.Length" class="form-control" />
+            <span asp-validation-for="Length" class="text-danger"></span>
+
+            
+            <div>
+                Shippping speed: 
+            <select asp-for="test" name="filterby" value="@Model.test" class ="form-group">
+				<option value="1">Ground</option>
+				<option value="2">Express</option>
+                  
+                    <!--<option value="6">Status</option>-->
+			</select>
+            </div>            
+        </div>
+    </div>
+    <div class="form-actions no-color">
+        <p>
+            <input type="submit" value="Get Your Quote" class="btn btn-primary" />
+        </p>
+    </div>
+</form>
+@if(@Model.final != 0)
+{
+    <h2>Cost: $@Model.final</h2>
+}
+
+
