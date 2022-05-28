@@ -1,0 +1,42 @@
+.BGF{
+ position: absolute;
+ left: 0;
+ top: 0;
+ bottom: 0;
+ right: 0;
+ z-index: 1;
+ background: none;
+ opacity: .7;
+}
+table{
+ position: absolute;
+ z-index: 2;
+ left: 50%;
+ top: 50%;
+ transform: translate(-50%,-50%);
+ width: 60%;
+ border-collapse: collapse;
+ border-spacing: 0;
+ box-shadow: 0 2px 15px rgba(64,64,64,.7);
+ border-radius: 12px 12px 12px 12px;
+ overflow: hidden;
+}
+td , th{
+ padding: 30px 35px;
+ text-align: center;
+}
+th {
+    background-color: #2691d9;
+    color: #fafafa;
+    font-family: Georgia, serif;
+    font-weight: 200;
+    text-transform: uppercase;
+}
+tr {
+    width: 100%;
+    background-color: #fafafa;
+    font-family: Georgia, serif;
+}
+tr:nth-child(even){
+ background-color: #eeeeee;
+}
